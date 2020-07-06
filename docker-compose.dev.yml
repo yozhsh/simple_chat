@@ -4,6 +4,8 @@ services:
     build:
       context: ./chat-backend
       dockerfile: Dockerfile.dev
+    environment:
+      - DJANGO_SETTINGS_MODULE=chat.settings_dev
     ports:
     - "8000:8000"
     volumes:
