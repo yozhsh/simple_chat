@@ -1,20 +1,16 @@
-from django.core.validators import validate_email
+from accounts.mixins import EmailValidateSerializerMixin
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from accounts.models import Profile
 
 
-class UserRegistration(serializers.ModelSerializer):
+class UserRegistration(serializers.ModelSerializer, EmailValidateSerializerMixin):
     visible_name = serializers.CharField(max_length=50, required=True)
 
     class Meta:
         model = get_user_model()
         fields = ['email', 'password', 'visible_name']
         extra_kwargs = {'password': {'write_only': True}}
-
-    def validate_email(self, value):
-        validate_email(value)
-        return value
 
     def save(self, **kwargs):
         user_model = self.Meta.model
